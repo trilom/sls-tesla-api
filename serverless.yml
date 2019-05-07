@@ -1,0 +1,33 @@
+service: sls-tesla-api
+
+custom:
+  pythonRequirements:
+      dockerizePip: true
+      usePipenv: true
+      useDownloadCache: true
+      useStaticCache: true
+
+provider:
+  name: aws
+  runtime: python3.6
+
+functions:
+  vehiclesCommand:
+    handler: app.app
+    events:
+      - http:
+          path: /{proxy+}
+          method: any
+          cors: true
+resources:
+  Resources:
+    ApiGatewayRestApi:
+      Type: 'AWS::ApiGateway::RestApi'
+      Properties:
+        Name: sls-tesla-api
+        Body:
+          ${file(./swagger.yml)}
+
+plugins:
+  - serverless-python-requirements
+  - serverless-pseudo-parameters

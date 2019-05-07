@@ -1,0 +1,770 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: sls-tesla-api
+paths:
+  # vehicle commands
+  /command/{vehicleId}/sentry_mode_off:
+    post:
+      summary: Turns off sentry mode.
+      description: |
+        This will turn off sentry mode.
+      operationId: vehiclescommandsentry_mode_off
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/sentry_mode_on:
+    post:
+      summary: Turns on sentry mode.
+      description: |
+        This will turn on sentry mode.
+      operationId: vehiclescommandsentry_mode_on
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/remote_steering_wheel_heater_off:
+    post:
+      summary: Turns off steering wheel heater.
+      description: |
+        This will turn off the steering wheel heater in Model S/X.
+      operationId: vehiclescommandremote_steering_wheel_heater_off
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/remote_steering_wheel_heater_on:
+    post:
+      summary: Turns on steering wheel heater.
+      description: |
+        This will turn on the steering wheel heater in Model S/X.
+      operationId: vehiclescommandremote_steering_wheel_heater_on
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/remote_seat_heater_request/{seats}/{level}:
+    post:
+      summary: Set seat heater for seat at level.
+      description: |
+        Set the seat heater to a desired level.
+        - Seats Param
+          - driver
+          - passenger
+          - left
+          - center
+          - right
+        - Level Param
+          - off
+          - low
+          - medium
+          - high
+      operationId: vehiclescommandremote_seat_heater_request
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+        - $ref: "#/components/parameters/SeatHeatLevelPath"
+        - $ref: "#/components/parameters/SeatsPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/set_temps/passenger/{temp}:
+    post:
+      summary: Set the front passenger temperature of the HVAC system.
+      description: |
+        Set temperature of passenger side HVAC system in the car to desired, and other side to 72F/22.2C.  There is no way to only set one temp for now.
+      operationId: vehiclescommandset_temps_passenger
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+        - $ref: "#/components/parameters/TemperaturePath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/set_temps/driver/{temp}:
+    post:
+      summary: Set the front driver temperature of the HVAC system.
+      description: |
+        Set temperature of driver side HVAC system in the car to desired, and other side to 72F/22.2C.  There is no way to only set one temp for now.
+      operationId: vehiclescommandset_temps_driver
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+        - $ref: "#/components/parameters/TemperaturePath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/set_temps/{temp}:
+    post:
+      summary: Set the temperature of the HVAC system.
+      description: |
+        Set temperature of HVAC system in the car.
+      operationId: vehiclescommandset_temps
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+        - $ref: "#/components/parameters/TemperaturePath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/auto_conditioning_stop:
+    post:
+      summary: Turns off HVAC system.
+      description: |
+        This will turn off the HVAC system.
+      operationId: vehiclescommandauto_conditioning_stop
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/auto_conditioning_start:
+    post:
+      summary: Turns on HVAC system.
+      description: |
+        This will turn on the HVAC system to heat/cool to the last set temperature.
+      operationId: vehiclescommandauto_conditioning_start
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/set_charge_limit/{chargeLimit}:
+    post:
+      summary: Sets charge limit to provided chargeLimit.
+      description: |
+        This will set the charge limit to the desired chargeLimit parameter provided.
+      operationId: vehiclescommandset_charge_limit
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+        - $ref: "#/components/parameters/ChargeLimitPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/charge_max_range:
+    post:
+      summary: Sets charge limit to maximum, 100%.
+      description: |
+        This set the charge limit to the maximum of 100%.
+      operationId: vehiclescommandcharge_max_range
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/charge_standard:
+    post:
+      summary: Sets charge limit to standard, 90%.
+      description: |
+        This will limit the vehicle from charging over 90%, or the 'standard' limit.
+      operationId: vehiclescommandcharge_standard
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/charge_stop:
+    post:
+      summary: Stops charging if plugged in.
+      description: |
+        This will make the vehicle stop charging if it is plugged in to a power source.
+      operationId: vehiclescommandcharge_stop
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/charge_start:
+    post:
+      summary: Starts charging if plugged in.
+      description: |
+        This will make the vehicle begin charging if it is plugged in to a power source.
+      operationId: vehiclescommandcharge_start
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/charge_port_door_close:
+    post:
+      summary: Closes the charge port door.
+      description: |
+        This is used to close the charge port door.
+      operationId: vehiclescommandcharge_port_door_close
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/charge_port_door_open:
+    post:
+      summary: Opens the charge port door.
+      description: |
+        This is used to open the charge port door.
+      operationId: vehiclescommandcharge_port_door_open
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/open_frunk:
+    post:
+      summary: Opens the front trunk.
+      description: |
+        This is used to open the front trunk.
+      operationId: vehiclescommandopen_frunk
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/open_trunk:
+    post:
+      summary: Opens the rear trunk.
+      description: |
+        This is used to open the rear trunk.  On Model S/X it will actuate the trunk open and closed.
+      operationId: vehiclescommandopen_trunk
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/honk_horn:
+    post:
+      summary: Honks horn twice.
+      description: |
+        This is used to honk the horn twice.
+      operationId: vehiclescommandhonk_horn
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/flash_lights:
+    post:
+      summary: Flash lights once.
+      description: |
+        This is used to flash the lights once.
+      operationId: vehiclescommandflash_lights
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/wake_up:
+    post:
+      summary: Wake up car.
+      description: |
+        This is used to wakeup the car.
+      operationId: vehiclescommandwake_up
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/door_unlock:
+    post:
+      summary: Unlocks doors.
+      description: |
+        This is used to unlock the doors.
+      operationId: vehiclescommanddoor_unlock
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /command/{vehicleId}/door_lock:
+    post:
+      summary: Locks doors.
+      description: |
+        This is used to lock the doors.
+      operationId: vehiclescommanddoor_lock
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        201:
+          $ref: "#/components/responses/TeslaPostResponse"
+        500:
+          description: Failure
+      parameters:
+        - $ref: "#/components/parameters/VehicleIdPath"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /vehicles:
+    post:
+      summary: Get list of vehicle ids for bearer token.
+      operationId: vehicleList
+      requestBody:
+        description: Token Data Object
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/TokenData"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VehiclesData"
+        500:
+          description: Failure
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/#{VehiclesCommandLambdaFunction.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+components:
+  responses:
+    TeslaPostResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TeslaPost"
+      headers:
+        Access-Control-Allow-Headers:
+          $ref: "#/components/headers/Access-Control-Allow-Headers"
+        Access-Control-Allow-Methods:
+          $ref: "#/components/headers/Access-Control-Allow-Methods"
+        Access-Control-Allow-Origin:
+          $ref: "#/components/headers/Access-Control-Allow-Origin"
+  parameters:
+    VehicleIdPath:
+      in: path
+      name: vehicleId
+      description: The vehicle id
+      required: true
+      schema:
+        type: string
+    ChargeLimitPath:
+      in: path
+      name: chargeLimit
+      description: The limit in % that you want to limit the battery to charge to.
+      required: true
+      schema:
+        type: number
+    TemperaturePath:
+      in: path
+      name: temp
+      description: The temp in celsius you want to set the temprature to.
+      required: true
+      schema:
+        type: number
+    SeatHeatLevelPath:
+      in: path
+      name: level
+      description: The level you want to set the seat heater to. off/low/medium/high
+      required: true
+      schema:
+        type: string
+    SeatsPath:
+      in: path
+      name: seats
+      description: The seat you want to perform an action on.  driver/passenger/left/center/right
+      required: true
+      schema:
+        type: string
+  headers:
+    X-Api-Key:
+      description: AWS API Gateway X-Api-Key for API
+      schema:
+        type: string
+    X-Rate-Limit:
+      description: calls per hour allowed by the user
+      schema:
+        type: integer
+        format: int32
+    X-Expires-After:
+      description: date in UTC when token expires
+      schema:
+        type: string
+        format: date-time
+    Access-Control-Allow-Headers:
+      description: CORS allowed Headers
+      schema:
+        type: string
+    Access-Control-Allow-Methods:
+      description: CORS allowed Methods
+      schema:
+        type: string
+    Access-Control-Allow-Origin:
+      description: CORS allowed Origin
+      schema:
+        type: string
+    Access-Control-Request-Method:
+      description: CORS Request Method for Preflight
+      schema:
+        type: string
+  schemas:
+    TokenData:
+      type: object
+      properties:
+        bearer_token:
+          type: string
+    VehiclesData:
+      type: array
+      items:
+        type: object
+        required:
+          - vehicle_id
+        properties:
+          vehicle_id:
+            type: string
