@@ -1,4 +1,4 @@
-#sls-tesla-api
+# sls-tesla-api
 This is most of the Tesla commands api wrapped up, and ready for you to deploy for your own use case in AWS.
 
 ## Dependencies
